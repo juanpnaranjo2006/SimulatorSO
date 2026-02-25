@@ -6,6 +6,7 @@
 
 std::vector <std::string> memoria(1024);
 std::map <std::string, int> decodificador;
+std::string acumulador = "0";
 
 int decodificar(std::string &strAddr) {
     return decodificador[strAddr];
@@ -49,6 +50,8 @@ int decode(std::string &instruction) {
 void execute(int opCode, std::string &instruction) {
     std::string firstArgument;
     std::string secondArgument;
+    std::string thirdArgument;
+    std::string fourthArgument;
     int address;
     int result;
     if (opCode == 0) {
@@ -62,28 +65,57 @@ void execute(int opCode, std::string &instruction) {
         //std::cout << memoria[address] << std::endl;
     }
     else if (opCode == 1) {
-
+        //LDR
+        firstArgument = instruction.substr(instruction.find(" ") + 1, instruction.length() - instruction.find(" "));
+        firstArgument = firstArgument.substr(0, firstArgument.find(" "));
+        address = decodificar(firstArgument);
+        acumulador = memoria[address];
+        //std::cout << acumulador << std::endl;
     }
     else if (opCode == 2) {
-
+        //ADD
+        firstArgument = instruction.substr(instruction.find(" ") + 1, instruction.length() - instruction.find(" "));
+        secondArgument = firstArgument.substr(firstArgument.find(" ") + 1, firstArgument.length() - firstArgument.find(" "));
+        firstArgument = firstArgument.substr(0, firstArgument.find(" "));
+        thirdArgument = secondArgument.substr(secondArgument.find(" ") + 1, secondArgument.length() - secondArgument.find(" "));
+        secondArgument = secondArgument.substr(0, secondArgument.find(" "));
+        thirdArgument = thirdArgument.substr(0, thirdArgument.find(" "));
+        if (secondArgument == "NULL") {
+            address = decodificar(firstArgument);
+            acumulador = std::to_string(stoi(memoria[address]) + stoi(acumulador));
+        }
+        else if (thirdArgument == "NULL") {
+            address = decodificar(firstArgument);
+            acumulador = memoria[address];
+            address = decodificar(secondArgument);
+            acumulador = std::to_string(stoi(memoria[address]) + stoi(acumulador));
+        }
+        else {
+            address = decodificar(firstArgument);
+            acumulador = memoria[address];
+            address = decodificar(secondArgument);
+            acumulador = std::to_string(stoi(memoria[address]) + stoi(acumulador));
+            address = decodificar(thirdArgument);
+            memoria[address] = acumulador;
+        }
     }
     else if (opCode == 3) {
-
+        //INC
     }
     else if (opCode == 4) {
-
+        //DEC
     }
     else if (opCode == 5) {
-
+        //STR
     }
     else if (opCode == 6) {
-
+        //SHW
     }
     else if (opCode == 7) {
-
+        //PAUSE
     }
     else if (opCode == 8) {
-
+        //END
     }
     else {}
 }
@@ -96,8 +128,9 @@ int main() {
         decodificador[("D" + std::to_string(i))] = i;
     }
 
-    std::string instruction("SET D10 15 NULL NULL");
-    execute(0, instruction);
+    std::string instruction("ADD D10 D11 NULL NULL");
+    memoria[10] = std::string("Hola");
+    execute(2, instruction);
 
 
     return 0;
