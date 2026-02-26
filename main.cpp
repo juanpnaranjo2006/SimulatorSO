@@ -7,6 +7,10 @@
 std::vector <std::string> memoria(1024);
 std::map <std::string, int> decodificador;
 std::string acumulador = "0";
+int mar;
+std::string mdr;
+std::string icr;
+int programCounter;
 
 int decodificar(std::string &strAddr) {
     return decodificador[strAddr];
