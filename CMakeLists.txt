@@ -6,4 +6,6 @@ set(CMAKE_CXX_STANDARD 14)
 add_executable(SimulatorSO
         main.cpp
         cpu.cpp
-        cpu.h)
+        cpu.h
+        memory.cpp
+        memory.h)

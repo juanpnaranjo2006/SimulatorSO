@@ -6,34 +6,34 @@
 #include <sstream>
 
 void CPU::decode(const std::string &instructName) {
-    opCode = -1;
+    opCode = 0; //NOP instruction
 
     if (instructName == "SET") {
-        opCode = 0;
-    }
-    else if (instructName == "LDR") {
         opCode = 1;
     }
-    else if (instructName == "ADD") {
+    else if (instructName == "LDR") {
         opCode = 2;
     }
-    else if (instructName == "INC") {
+    else if (instructName == "ADD") {
         opCode = 3;
     }
-    else if (instructName == "DEC") {
+    else if (instructName == "INC") {
         opCode = 4;
     }
-    else if (instructName == "STR") {
+    else if (instructName == "DEC") {
         opCode = 5;
     }
-    else if (instructName == "SHW") {
+    else if (instructName == "STR") {
         opCode = 6;
     }
-    else if (instructName == "PAUSE") {
+    else if (instructName == "SHW") {
         opCode = 7;
     }
-    else if (instructName == "END") {
+    else if (instructName == "PAUSE") {
         opCode = 8;
+    }
+    else if (instructName == "END") {
+        opCode = 9;
     }
 }
 
