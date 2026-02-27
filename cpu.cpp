@@ -50,6 +50,18 @@ void CPU::setArguments() {
     }
 }
 
+void CPU::aluOP() {
+    if (opCode == 3) {
+        accumulator = accumulator + registerA;
+    }
+    else if (opCode == 4) {
+        accumulator = accumulator + 1;
+    }
+    else if (opCode == 5) {
+        accumulator = accumulator - 1;
+    }
+}
+
 // ===== Getters =====
 int CPU::getMAR() const {
     return mar;
@@ -75,12 +87,20 @@ int CPU::getOpCode() const {
     return opCode;
 }
 
+int CPU::getAccumulator() const {
+    return accumulator;
+}
+
+int CPU::getRegisterA() const {
+    return registerA;
+}
+
 // ===== Setters =====
-void CPU::setMAR(int value) {
+void CPU::setMAR(const int value) {
     mar = value;
 }
 
-void CPU::setMDR(int value) {
+void CPU::setMDR(const int value) {
     mdr = value;
 }
 
@@ -88,7 +108,7 @@ void CPU::setICR(const std::string& value) {
     icr = value;
 }
 
-void CPU::setProgramCounter(int value) {
+void CPU::setProgramCounter(const int value) {
     programCounter = value;
 }
 
@@ -96,6 +116,14 @@ void CPU::setArguments(const std::vector<std::string>& args) {
     arguments = args;
 }
 
-void CPU::setOpCode(int value) {
+void CPU::setOpCode(const int value) {
     opCode = value;
+}
+
+void CPU::setAccumulator(const int value) {
+    accumulator = value;
+}
+
+void CPU::setRegisterA(const int value) {
+    registerA = value;
 }

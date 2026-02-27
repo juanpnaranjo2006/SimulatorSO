@@ -14,6 +14,8 @@ private:
     int mdr;
     std::string icr;
     int programCounter;
+    int registerA;
+    int accumulator;
 
     // ===== Variables Auxiliares =====
     std::vector <std::string> arguments{3};
@@ -27,7 +29,7 @@ public:
     CPU() = default;
 
     // ===== Métodos principales =====
-
+    void aluOP();
 
 
     // ===== Getters =====
@@ -37,6 +39,8 @@ public:
     int getProgramCounter() const;
     std::vector<std::string> getArguments() const;
     int getOpCode() const;
+    int getAccumulator() const;
+    int getRegisterA() const;
 
     // ===== Setters =====
     void setMAR(int value);
@@ -45,6 +49,8 @@ public:
     void setProgramCounter(int value);
     void setArguments(const std::vector<std::string>& args);
     void setOpCode(int value);
+    void setAccumulator(int value);
+    void setRegisterA(int value);
 };
 
 
