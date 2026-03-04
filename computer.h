@@ -14,6 +14,9 @@ public:
     COMPUTER(int memSize, int textIndex);
     ~COMPUTER() = default;
 
+    // == Métodos Principales ==
+    void loadProgram(const std::string &path);
+
     // == Getters ==
     CPU& getProcessor();
     MEMORY& getMemory();
