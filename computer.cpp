@@ -2,6 +2,7 @@
 #include <fstream>
 #include <stdexcept>
 #include <exception>
+#include <iostream>
 
 COMPUTER::COMPUTER() {
     memory = MEMORY();
@@ -181,13 +182,26 @@ void COMPUTER::execute() {
         SHW MDR: Displays the value in the Memory Data Register.
         SHW UC: Displays the state of the Control Unit.
         */
-        ;
-    }
-    if (oC == 8) {
-        ;
-    }
-    if (oC == 9) {
-        ;
+        if (processor.getArguments()[0] == "ACC") {
+            std::cout << processor.getAccumulator() << std::endl;
+        }
+        else if (processor.getArguments()[0] == "ICR") {
+            std::cout << processor.getICR() << std::endl;
+        }
+        else if (processor.getArguments()[0] == "MAR") {
+            std::cout << processor.getMAR() << std::endl;
+        }
+        else if (processor.getArguments()[0] == "MDR") {
+            std::cout << processor.getMDR() << std::endl;
+        }
+        else if (processor.getArguments()[0] == "UC") {
+            std::cout << "opCode: " << processor.getOpCode() << std::endl;
+        }
+        else {
+            //Memory addrress
+            int addr = std::stoi(processor.getArguments()[0]);
+            std::cout << "Address: " << addr  << "\n Value: "<< memory.read(addr) << std::endl;
+        }
     }
 }
 
