@@ -20,11 +20,13 @@ public:
 
     // == Métodos Principales ==
     void loadProgram(const std::string &path);
+    void runProgram();
     void basicInstructionCycle();
     void readMemoryData();
     void readMemoryText();
     void writeMemoryData();
     void execute();
+    void pause();
 
     // == Getters ==
     CPU& getProcessor();

@@ -67,7 +67,7 @@ void COMPUTER::readMemoryText() {
         throw std::out_of_range("Se intentan leer instrucciones por fuera del Text. Posicion de Lectura: " + std::to_string(processor.getMAR()) + ", TextIndex: " + std::to_string(memory.getTextIndex()));
     }
 
-    processor.setICR(memory.read(processor.getMAR()));
+    processor.setICR(memory.read(processor.getMAR() + memory.getTextIndex()));
 }
 
 void COMPUTER::writeMemoryData() {
@@ -200,7 +200,7 @@ void COMPUTER::execute() {
         else {
             //Memory addrress
             int addr = std::stoi(processor.getArguments()[0]);
-            std::cout << "Address: " << addr  << "\n Value: "<< memory.read(addr) << std::endl;
+            std::cout << memory.read(addr) << std::endl;
         }
     }
 }
@@ -215,9 +215,67 @@ void COMPUTER::basicInstructionCycle() {
     processor.setArguments(); //Decode + Argumentos para poder ejecutar
 
     //Execute
-    execute();
+    if (processor.getOpCode() != 8 && processor.getOpCode() != 9) {
+        execute();
+    }
+    else {
+        pause();
+    }
 
     //Next
+}
+
+void COMPUTER::pause() {
+    std::cout << "MODO PAUSA ACTIVADO" << std::endl;
+    std::cout << "============================" << std::endl;
+    std::cout << "CPU Information\n" << std::endl;
+    std::cout << "MAR: " << processor.getMAR() << std::endl;
+    std::cout << "MDR: " << processor.getMDR() << std::endl;
+    std::cout << "ICR: \"" << processor.getICR() << "\"" << std::endl;
+    std::cout << "opCode: " << processor.getOpCode() << std::endl;
+    std::cout << "Program Counter: " << processor.getProgramCounter() << std::endl;
+    std::cout << "RegisterA: " << processor.getRegisterA() << std::endl;
+    std::cout << "Accumulator: " << processor.getAccumulator() << std::endl;
+    std::cout << "Arguments:" << std::endl;
+    for (int i = 0; i < processor.getArguments().size(); ++i) {
+        std::cout << "  Argument " << i + 1 << ": \"" << processor.getArguments()[i] << "\"" << std::endl;
+    }
+    std::cout << "============================" << std::endl;
+    std::cout << "Memory Information\n" << std::endl;
+    std::cout << "MemSize: " << memory.getMemSize() << std::endl;
+    std::cout << "TextIndex: " << memory.getTextIndex() << std::endl;
+    std::cout << "============================\n" << std::endl;
+
+    std::string line;
+    while (line != "exit") {
+        std::cout << "Para visualizar valores de memoria, escriba la direccion absoluta aqui: (Escriba \"exit\" para salir)" << std::endl;
+        std::cin >> line;
+        try {
+            if (line != "exit") {
+                std::cout <<  "Direccion: " << line << "\nValor: \""<< memory.read(std::stoi(line)) << "\""<< std::endl;
+            }
+            else {
+                std::cout << "Saliendo del modo pausa..."<< std::endl;
+            }
+        }
+        catch (const std::exception& e) {
+            std::cerr << e.what() << '\n';
+        }
+        catch (...) {
+            std::cerr << "Error desconocido" << std::endl;
+        }
+    }
+
+    std::cout << "Se ha salido del modo pausa con exito!\n"<< std::endl;
+}
+
+void COMPUTER::runProgram() {
+    //Se debería haber cargado el programa primero
+    processor.setProgramCounter(0); //Se le añade automáticamente el textIndex al leer instrucciones;
+    processor.setOpCode(0);
+    while (processor.getOpCode() != 9) {
+        basicInstructionCycle();
+    }
 }
 
 CPU& COMPUTER::getProcessor() {
