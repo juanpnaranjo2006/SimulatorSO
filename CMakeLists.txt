@@ -9,4 +9,5 @@ add_executable(SimulatorSO
         cpu.h
         memory.cpp
         memory.h
+        computer.cpp
 )
