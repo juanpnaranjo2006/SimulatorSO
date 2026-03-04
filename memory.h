@@ -20,6 +20,7 @@ public:
     MEMORY();
     MEMORY(int size);
     MEMORY(int size, int tIndex);
+    ~MEMORY() = default;
 
     // === Métodos Públicos Principales ===
     void write(int addr, const std::string &value);

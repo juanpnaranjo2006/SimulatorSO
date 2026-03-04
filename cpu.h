@@ -27,6 +27,7 @@ private:
 
 public:
     CPU() = default;
+    ~CPU() = default;
 
     // ===== Métodos principales =====
     void aluOP();
