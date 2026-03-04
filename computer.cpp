@@ -28,24 +28,28 @@ void COMPUTER::loadProgram(const std::string &path) {
 
     if (!file.is_open()) {
         throw std::runtime_error("No se pudo abrir el archivo: " + path);
+        file.close();
     }
 
     std::string instruction;
     int addr = memory.getTextIndex();
     const int maxAddr = memory.getMemSize();
-    while (file >> instruction) {
+    while (std::getline(file, instruction)) {
         if (addr < maxAddr) {
             memory.write(addr, instruction);
             addr += 1;
         }
         else {
+            file.close();
             throw std::length_error("El programa en " + path + " no cabe en el espacio de memoria reservado para programas (MemSize: " + std::to_string(maxAddr) + ")");
         }
     }
 
     if (!file.eof()) {
+        file.close();
         throw std::runtime_error("Error al leer el archivo: " + path);
     }
+    file.close();
 }
 
 void COMPUTER::readMemoryData() {
@@ -60,11 +64,8 @@ void COMPUTER::readMemoryData() {
 }
 
 void COMPUTER::readMemoryText() {
-    if (processor.getMAR() >= memory.getMemSize()) {
+    if (processor.getMAR() + memory.getTextIndex() >= memory.getMemSize()) {
         throw std::out_of_range("Rango por fuera de la memoria. Posicion de Lectura: " + std::to_string(processor.getMAR()) + ", MemSize: " + std::to_string(memory.getMemSize()));
-    }
-    else if (processor.getMAR() < memory.getTextIndex()) {
-        throw std::out_of_range("Se intentan leer instrucciones por fuera del Text. Posicion de Lectura: " + std::to_string(processor.getMAR()) + ", TextIndex: " + std::to_string(memory.getTextIndex()));
     }
 
     processor.setICR(memory.read(processor.getMAR() + memory.getTextIndex()));
@@ -199,7 +200,7 @@ void COMPUTER::execute() {
         }
         else {
             //Memory addrress
-            int addr = std::stoi(processor.getArguments()[0]);
+            int addr = convertAddr(processor.getArguments()[0]);
             std::cout << memory.read(addr) << std::endl;
         }
     }
@@ -218,7 +219,7 @@ void COMPUTER::basicInstructionCycle() {
     if (processor.getOpCode() != 8 && processor.getOpCode() != 9) {
         execute();
     }
-    else {
+    else if (processor.getOpCode() == 8) {
         pause();
     }
 

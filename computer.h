@@ -11,6 +11,12 @@ private:
 
     // == Métodos Privados ==
     static int convertAddr(const std::string &addr);
+    void basicInstructionCycle();
+    void readMemoryData();
+    void readMemoryText();
+    void writeMemoryData();
+    void execute();
+    void pause();
 
 public:
     COMPUTER();
@@ -21,12 +27,6 @@ public:
     // == Métodos Principales ==
     void loadProgram(const std::string &path);
     void runProgram();
-    void basicInstructionCycle();
-    void readMemoryData();
-    void readMemoryText();
-    void writeMemoryData();
-    void execute();
-    void pause();
 
     // == Getters ==
     CPU& getProcessor();
