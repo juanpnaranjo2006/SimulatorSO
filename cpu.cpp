@@ -38,7 +38,7 @@ void CPU::decode(const std::string &instructName) {
 }
 
 void CPU::setArguments() {
-    //Manipula el ICR con substrings para poder tener los argumentos de la instrucción separados
+    //Manipula el ICR con substrings para poder tener los argumentos de la instrucción separados y el opCode
     std::istringstream iss(icr);
     std::string instructName;
     iss >> instructName;
@@ -79,7 +79,7 @@ int CPU::getProgramCounter() const {
     return programCounter;
 }
 
-std::vector<std::string> CPU::getArguments() const {
+const std::vector<std::string> &CPU::getArguments() const{
     return arguments;
 }
 
@@ -110,10 +110,6 @@ void CPU::setICR(const std::string& value) {
 
 void CPU::setProgramCounter(const int value) {
     programCounter = value;
-}
-
-void CPU::setArguments(const std::vector<std::string>& args) {
-    arguments = args;
 }
 
 void CPU::setOpCode(const int value) {

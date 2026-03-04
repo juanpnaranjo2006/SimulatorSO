@@ -8,6 +8,10 @@ class COMPUTER {
 private:
     CPU processor;
     MEMORY memory;
+
+    // == Métodos Privados ==
+    static int convertAddr(const std::string &addr);
+
 public:
     COMPUTER();
     COMPUTER(int memSize);
@@ -16,6 +20,11 @@ public:
 
     // == Métodos Principales ==
     void loadProgram(const std::string &path);
+    void basicInstructionCycle();
+    void readMemoryData();
+    void readMemoryText();
+    void writeMemoryData();
+    void execute();
 
     // == Getters ==
     CPU& getProcessor();

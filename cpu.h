@@ -23,7 +23,6 @@ private:
 
     // ===== Métodos privados =====
     void decode(const std::string &instructName);
-    void setArguments();
 
 public:
     CPU() = default;
@@ -38,7 +37,7 @@ public:
     int getMDR() const;
     std::string getICR() const;
     int getProgramCounter() const;
-    std::vector<std::string> getArguments() const;
+    const std::vector<std::string> &getArguments() const;
     int getOpCode() const;
     int getAccumulator() const;
     int getRegisterA() const;
@@ -48,7 +47,7 @@ public:
     void setMDR(int value);
     void setICR(const std::string& value);
     void setProgramCounter(int value);
-    void setArguments(const std::vector<std::string>& args);
+    void setArguments();
     void setOpCode(int value);
     void setAccumulator(int value);
     void setRegisterA(int value);
