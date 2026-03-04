@@ -154,6 +154,7 @@ void COMPUTER::execute() {
         readMemoryData();
         processor.setAccumulator(processor.getMDR());
         processor.aluOP();
+        writeMemoryData();
     }
     if (oC == 5) {
         /*
@@ -164,6 +165,7 @@ void COMPUTER::execute() {
         readMemoryData();
         processor.setAccumulator(processor.getMDR());
         processor.aluOP();
+        writeMemoryData();
     }
     if (oC == 6) {
         /*
@@ -227,7 +229,7 @@ void COMPUTER::basicInstructionCycle() {
 }
 
 void COMPUTER::pause() {
-    std::cout << "MODO PAUSA ACTIVADO" << std::endl;
+    std::cout << "\nMODO PAUSA ACTIVADO" << std::endl;
     std::cout << "============================" << std::endl;
     std::cout << "CPU Information\n" << std::endl;
     std::cout << "MAR: " << processor.getMAR() << std::endl;
@@ -248,12 +250,15 @@ void COMPUTER::pause() {
     std::cout << "============================\n" << std::endl;
 
     std::string line;
+    std::string value;
     while (line != "exit") {
         std::cout << "Para visualizar valores de memoria, escriba la direccion absoluta aqui: (Escriba \"exit\" para salir)" << std::endl;
         std::cin >> line;
         try {
             if (line != "exit") {
-                std::cout <<  "Direccion: " << line << "\nValor: \""<< memory.read(std::stoi(line)) << "\""<< std::endl;
+                value = memory.read(std::stoi(line));
+                std::cout <<  "Direccion: " << line << std::endl;
+                std::cout << "Valor: \""<< value << "\""<< std::endl;
             }
             else {
                 std::cout << "Saliendo del modo pausa..."<< std::endl;
@@ -277,6 +282,7 @@ void COMPUTER::runProgram() {
     while (processor.getOpCode() != 9) {
         basicInstructionCycle();
     }
+    //Termina al ver un END
 }
 
 CPU& COMPUTER::getProcessor() {
